@@ -8,7 +8,7 @@ It's also possible to monitor several pwnagotchi's at the same time, there could
 # Installation
 At the moment you will need to:
 1. Install python3-scapy on the pwnagotchi (apt install python3-scapy)
-2. Copy the beacons.py file to the current plugins directory (usually /usr/local/lib/python3.7/dist-packages/pwnagotchi/plugins/default)
+2. Copy the plugin/beacons.py file to the current plugins directory (usually /usr/local/lib/python3.7/dist-packages/pwnagotchi/plugins/default)
 3. Edit the config.yml file and add the new plugin. See config-example.yml file.
 
 That's it. You can use the provided Android APK to test if everything is working.
