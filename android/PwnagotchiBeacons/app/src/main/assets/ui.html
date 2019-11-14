@@ -1,0 +1,133 @@
+<html>
+<head>
+    <!-- KUDOS to Marcus / dipsylala, from whom I cannibalized this layout! -->
+    <!-- Check out https://github.com/dipsylala/pwnagotchi-state-api for more info on this excellent project-->
+
+    <style>
+            body{font-family:"Courier New",Courier,monospace;font-size:100%;background:#000;color:#AAA}
+
+            @media screen and (min-width: 750px) {
+            body{font-size:150%}
+            }
+            @media screen and (min-width: 1000px) {
+            body{font-size:200%}
+            }
+            @media screen and (min-width: 1250px) {
+            body{font-size:250%}
+            }
+            .gotchicontainer{max-width:38em}
+            .flexible{display:flex;flex-wrap:wrap}
+            .headerbar{border-bottom:3px solid}
+            .headerbar div{display:inline}
+            .channel{width:10em;margin-right:1em}
+            .aps{flex-shrink:1;width:10em}
+            .padder{flex-grow:1;flex-shrink:1}
+            .uptime{flex-shrink:1;width:13em}
+            .face{font-family:"Courier New",Courier,monospace;font-size:3em;flex:auto;min-width:4em;max-width:6em}
+            .name{font-weight:700}
+            .title{font-weight:700}
+            .status{flex:1 1 0;flex-wrap:nowrap}
+            .friend_face_text{font-family:"Courier New",Courier,monospace;font-size:1.5em;height:2em;line-height:2em;width:5em;margin-top:auto;margin-bottom:auto}
+            .friend_name_text{flex-shrink:1;font-size:.8em;height:2em;line-height:2em;width:16em;padding-left:.5em;margin-top:auto;margin-bottom:auto}
+            .systemarea > div{flex-shrink:auto;padding:15px}
+            .systemarea div{display:inline}
+            .lowerarea{border-top:3px solid}
+            .lowerarea div{display:inline}
+            .shakes{flex-shrink:1}
+            .mode{flex-shrink:1}
+            .buttons-wrapper { flex-shrink: 0; display: flex; /*flex-wrap: wrap;*/ padding: 0 16px; }
+            .buttons-wrapper .button { color: #555555; border: 1px solid #aaaaaa; border-radius: 4px; font-size: 1em; background:#000000; margin: 16px; }
+        </style>
+
+    <script>
+            "use strict";
+            const $ = document.querySelector.bind(document);
+
+            let stateRetrieval = (function(){
+                let _populateDisplay = function(result){
+
+                  $("#initialiser").style.display = (result.initialised === "false") ? "block" : "none";
+                  $("#maindisplay").style.display = (result.initialised === "false") ? "none" : "block";
+
+                  if (result.initialised === "false") {
+                      const snore = $("#snore");
+                      snore.innerText = snore.dataset.zeds.charAt(snore.dataset.index++);
+                      snore.dataset.index%=3;
+                      return;
+                  }
+
+                  $("#channel").innerText = result.channel;
+                  $("#aps").innerText = result.aps;
+                  $("#uptime").innerText = result.uptime;
+
+                  $("#name").innerText = result.name + ">";
+                  $("#face").innerText = result.face;
+                  $("#status").innerText = result.status;
+
+
+                  $("#shakes").innerText = result.pwnd_run + "(" + result.pwnd_tot + ")";
+                  $("#mode").innerText = result.mode;
+
+                };
+
+                let _retrieval = function(){
+                   var response = JSON.parse(pwnagotchiState.getState());
+                   _populateDisplay(response);
+                };
+
+                let initialise = function(){
+                    setInterval(_retrieval, 1000)
+                };
+
+                return {
+                    initialise: initialise
+                }
+            }());
+
+        </script>
+</head>
+<body>
+<div id="initialiser" class="gotchiinitialising">
+    Getting ready... (◡˳◡)<div id="snore" style="display: inline" data-index=0 data-zeds=".zZ">.</div>
+</div>
+
+<div id="maindisplay" class="gotchicontainer" style="display:none;">
+    <div class="headerbar flexible">
+        <div>
+            <div class="title">Channel:</div>
+            <div class="channel" id="channel" ></div>
+        </div>
+
+        <div>
+            <div class="title">APs:</div>
+            <div class="aps" id="aps"></div>
+        </div>
+
+        <div class="padder"></div>
+        <div>
+            <div class="title">Uptime: </div>
+            <div class="uptime" id="uptime"></div>
+        </div>
+    </div>
+    <div class="mainarea flexible">
+        <div class="name" id="name"></div>
+        <div class="face" id="face"></div><br/>
+        <div class="status" id="status"></div>
+    </div>
+    <div class="lowerarea flexible">
+        <div>
+            <div class="title">Pwned: </div>
+            <div class="shakes" id="shakes"></div>
+        </div>
+        <div class="padder"></div>
+        <div class="mode title" id="mode"></div>
+    </div>
+</div>
+
+<script>
+ window.onload = function() {
+ stateRetrieval.initialise();
+ };
+</script>
+</body>
+</html>
