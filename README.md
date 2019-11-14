@@ -27,4 +27,5 @@ You don't need to worry about setting up BLE PAN or any other method.
 This release is not even beta. Help developing is welcomed.
 Feel free to reach me via @kripthor or in pwnagotchi Slack #plugins channel
 
-
+# Kudos
+Special thanks to Dipsylala for being so helpful and for his HTML UI that I ended up cannibalizing in the Android app.
