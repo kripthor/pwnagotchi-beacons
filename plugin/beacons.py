@@ -37,15 +37,15 @@ class Beacons(plugins.Plugin):
 
     # called when the ui is updated
     def on_ui_update(self, ui):
-        logging.warning(" *beacons* -> ui_update " + str(time.time()) )
+        logging.debug(" *beacons* -> ui_update " + str(time.time()) )
         if Beacons._busy:
-            logging.warning(" *beacons* -> ui_update busy to send " + str(time.time()) )
+            logging.debug(" *beacons* -> ui_update busy to send " + str(time.time()) )
             return
         logging.warning(" *beacons* -> ui_update2 " + str(time.time()) )
         _thread.start_new_thread(self.exec_update, (ui,))
 
     def exec_update(self,ui):
-        logging.warning(" *beacons* -> exec_update " + str(time.time()) )
+        logging.debug(" *beacons* -> exec_update " + str(time.time()) )
         Beacons._busy = True
         try:
             mesh_data = grid.call("/mesh/data")
@@ -65,7 +65,7 @@ class Beacons(plugins.Plugin):
             packedInfo = self.pack_info(ui.get('channel'),ui.get('aps'), mesh_data["pwnd_run"], mesh_data["pwnd_tot"],pwnagotchi.uptime(),mesh_data["face"],ui.get('mode'),mesh_data["name"])
             self.broadcast_info(packedInfo,self._packet_type['report'])
         except:
-            logging.warning(" *beacons* -> exec_update exception.")
+            logging.debug(" *beacons* -> exec_update exception.")
         Beacons._busy = False
 
 
@@ -106,7 +106,7 @@ class Beacons(plugins.Plugin):
 
 
     def broadcast_info(self,info_packet,packet_type):
-        logging.warning(" *beacons* -> sending packets " + str(time.time()) )
+        logging.debug(" *beacons* -> sending packets " + str(time.time()) )
         SSID = info_packet
         iface = self._iface
         #android has some kind of mac filtering for vendors, not all spoofed macs work.
