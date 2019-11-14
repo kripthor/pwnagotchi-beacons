@@ -41,7 +41,7 @@ class Beacons(plugins.Plugin):
         if Beacons._busy:
             logging.debug(" *beacons* -> ui_update busy to send " + str(time.time()) )
             return
-        logging.warning(" *beacons* -> ui_update2 " + str(time.time()) )
+        logging.debug(" *beacons* -> ui_update2 " + str(time.time()) )
         _thread.start_new_thread(self.exec_update, (ui,))
 
     def exec_update(self,ui):
