@@ -1,0 +1,8 @@
+main:
+  plugins:
+    beacons:
+      enabled: true
+ui:
+    display:
+      enabled: false
+    fps: 0.25
