@@ -11,7 +11,7 @@ At the moment you will need to:
 2. Copy the plugin/beacons.py file to the current plugins directory (usually /usr/local/lib/python3.7/dist-packages/pwnagotchi/plugins/default)
 3. Edit the config.yml file and add the new plugin. See config-example.yml file.
 
-That's it. You can use the provided Android APK to test if everything is working.
+That's it. You can use the provided Android APK to test if everything is working (only 1 client support for now. Source will be provided soon, at the moment you'll need to manually install the apk, it sucks, I know).
 
 # Pros and Cons
 ## Downsides
