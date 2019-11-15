@@ -11,7 +11,7 @@ from struct import *
 
 class Beacons(plugins.Plugin):
     __author__ = '@kripthor'
-    __version__ = '0.0.1'
+    __version__ = '0.0.2'
     __license__ = 'GPL3'
     __description__ = 'A plugin that advertises pwnagotchi state via valid WiFi beacons.'
 
@@ -44,6 +44,7 @@ class Beacons(plugins.Plugin):
         _thread.start_new_thread(self.exec_update, (ui,))
         #self.exec_update(ui)
 
+    # This function bypasses the locks on the State. It's not ideal, but it was hanging too much. Need a safer way to do this.
     def get_unsafe_unsync(self, ui, key):
        return ui._state._state[key].value if key in ui._state._state else None
 
