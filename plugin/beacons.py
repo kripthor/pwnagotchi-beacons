@@ -11,7 +11,7 @@ from struct import *
 
 class Beacons(plugins.Plugin):
     __author__ = '@kripthor'
-    __version__ = '0.0.2'
+    __version__ = '0.0.1'
     __license__ = 'GPL3'
     __description__ = 'A plugin that advertises pwnagotchi state via valid WiFi beacons.'
 
@@ -57,7 +57,6 @@ class Beacons(plugins.Plugin):
             logging.warning(" *beacons* -> exec_update exception: ")
             logging.warning(" *beacons* -> " + str(type(e)) )
             logging.warning(" *beacons* -> " + str(e) )
-
         Beacons._busy = False
 
     def pack_info(self,channel,aps,shakes,uptime,face,mode,name):
@@ -97,7 +96,7 @@ class Beacons(plugins.Plugin):
         f = int(self._faces.index(face))
         cm = m + c
         #result = pack('!HHHHIHBB',ac,at,pr,pt,up,f,c,m)
-        logging.warning(" *beacons* -> packing state: " + str(face) + " pwnd_run: "+ str(pr) + " pwnd_total: "+ str(pt) )
+        logging.debug(" *beacons* -> packing state: " + str(face) + " pwnd_run: "+ str(pr) + " pwnd_total: "+ str(pt) )
         result = pack('!B',ac & 0xff)+pack('!H',at)+pack('!H',pr)+pack('!H',pt)+pack('!I',up)+pack('!B',f)+pack('!B',cm)
         # 13 bytes full. We can add 11 more to have 24 bytes size, and base64 the result to the 32 bytes, maximum SSID len that ensures compatibility cross platform
         result += bytes(name,'utf-8')[0:11]
@@ -105,7 +104,7 @@ class Beacons(plugins.Plugin):
 
 
     def broadcast_info(self,info_packet,packet_type):
-        logging.warning(" *beacons* -> sending packets " + str(time.time()) )
+#        logging.warning(" *beacons* -> sending packets " + str(time.time()) )
         SSID = info_packet
         iface = self._iface
         #android has some kind of mac filtering for vendors, not all spoofed macs work.
@@ -116,7 +115,7 @@ class Beacons(plugins.Plugin):
         essid = Dot11Elt(ID='SSID',info=SSID, len=len(SSID))
         rate_channel = b'\x01\x08\x82\x84\x8b\x96\x0c\x12\x18\x24\x03\x01'+pack('B',packet_type)+b'\x32\x04\x30\x48\x60\x6c'
         frame = RadioTap()/dot11/beacon/essid/rate_channel
-        sendp(frame, iface=iface, inter=0.100, count=20)
+        sendp(frame, iface=iface, inter=0.100, count=30)
 
 
     # called when a new peer is detected
