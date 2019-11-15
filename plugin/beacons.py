@@ -52,7 +52,7 @@ class Beacons(plugins.Plugin):
         try:
             Beacons._busy = True
            #TODO parse and send peers in another beacon frame
-            packedInfo = self.pack_info(self.get_unsafe_unsync(ui,'channel'),self.get_unsafe_unsync(ui,'aps'), self.get_unsafe_unsync(ui,'shakes'),pwnagotchi.uptime(),self.get_unsafe_unsync(ui,'face'),self.get_unsafe_unsync(ui,'mode'),self.get_unsafe_unsync(ui,'name'))
+            packedInfo = self.pack_info(self.get_unsafe_unsync(ui,'channel'),self.get_unsafe_unsync(ui,'aps'), self.get_unsafe_unsync(ui,'shakes'),pwnagotchi.uptime(),self.get_unsafe_unsync(ui,'face'),self.get_unsafe_unsync(ui,'mode'),pwnagotchi.name())
             self.broadcast_info(packedInfo,self._packet_type['report'])
         except Exception as e:
             logging.warning(" *beacons* -> exec_update exception: ")
